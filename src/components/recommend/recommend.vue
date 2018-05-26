@@ -4,13 +4,7 @@
       <div>
         <div class="decorate" v-if="banner.length"></div>
         <div v-show="banner.length" class="banner-wrapper">
-          <slider>
-            <div v-for="item in banner" :key="item.id" @click.stop="selectBanner(item)">
-              <a :href="item.url">
-                <img :src="item.picUrl" @load="loadImg"/>
-              </a>
-            </div>
-          </slider>
+          <slider :banner="banner" @load="loadImg"></slider>
         </div>
         <action></action>
         <div class="recommend-list" ref="recommendList" v-if="playList && playList.length">
@@ -18,7 +12,7 @@
             <i class="iconfont icon-go"></i>
           </h1>
           <ul>
-            <li class="item" v-for="item in playList" :key="item.id">
+            <li class="item" v-for="item in playList" :key="item.id" @click="selectList(item)">
               <div class="icon">
                 <div class="gradients"></div>
                 <img v-lazy="item.picUrl">
@@ -33,7 +27,7 @@
             </li>
           </ul>
         </div>
-        <div class="loading-wrapper">
+        <div class="loading-wrapper" v-if="!playList && !playList.length">
           <loading></loading>
         </div>
         <div class="recommend-song" ref="recommendSong">
@@ -41,17 +35,18 @@
             <i class="iconfont icon-go"></i>
           </h1>
           <ul>
-            <!--<li class="item" v-for="item in recommendMusic" :key="item.id" @click="selectSong(item)">-->
-              <!--<div class="icon">-->
-                <!--<img v-lazy="item.image">-->
-              <!--</div>-->
-              <!--<p class="text">{{item.name}}</p>-->
-              <!--<p class="singer">{{item.singer}}</p>-->
-            <!--</li>-->
+            <li class="item" v-for="item in recommendMusic" :key="item.id" @click="selectSong(item)">
+              <div class="icon">
+                <img v-lazy="item.image">
+              </div>
+              <p class="text">{{item.name}}</p>
+              <p class="singer">{{item.singer}}</p>
+            </li>
           </ul>
         </div>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -62,6 +57,8 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {getBanner, getRecommendList, getRecommendMusic} from 'api/recommend'
+  import {createRecommendSong} from 'common/js/song'
+  import {mapMutations} from 'vuex'
 
   export default {
     name: 'recommend',
@@ -82,6 +79,12 @@
     methods: {
       selectBanner(item) {
 
+      },
+      selectList(item) {
+        this.$router.push({
+          path: `/recommend/${item.id}`
+        })
+        this.setMusicList(item)
       },
       loadImg() {
         if (!this.checkLoad) {
@@ -111,7 +114,7 @@
         getRecommendMusic().then((res) => {
           if (res.status === ERR_OK) {
             let list = res.data.result.map((item) => {
-
+              return createRecommendSong(item)
             })
             list.splice(9)
             this.recommendMusic = list
@@ -119,7 +122,10 @@
             console.error('getRecommendMusic 获取失败')
           }
         })
-      }
+      },
+      ...mapMutations({
+        setMusicList: 'SET_MUSIC_LIST'
+      })
     },
     computed: {},
     components: {
@@ -138,7 +144,6 @@
     bottom: 0
     z-index: 100
     .recommend-content
-      position: relative
       width: 100%;
       height: 100%
       overflow: hidden
@@ -153,7 +158,6 @@
       .banner-wrapper
         width: 96%
         margin: 0 auto
-        -webkit-border-radius: 5px
         border-radius: 5px
         overflow: hidden
       .recommend-list, .recommend-song
@@ -201,15 +205,30 @@
             .iconfont
               font-size: $font-size-small-s
           .text
-            line-height: 16px
-            text-align: left
-            height: 40px
+            display: -webkit-box
+            -webkit-line-clamp: 2
+            -webkit-box-orient: vertical
             overflow: hidden
+            text-overflow: ellipsis
+            height: 2.5em
+            line-height: 1.2
             margin-bottom: 10px
             font-size: $font-size-small
+            color: $color-text
+          p.text
+            line-height: 16px
+            height: 16px
+            margin-bottom: 0
+            no-wrap()
+          .singer
+            line-height: 16px
+            margin-bottom: 10px
+            text-align: left
+            no-wrap()
+            font-size: $font-size-small
+            color: $color-text-sub
       .loading-wrapper
-        position: absolute
+        position: relative
         width: 100%
-        top: 50%
-        transform: translateY(-50%)
+        top: 50px
 </style>

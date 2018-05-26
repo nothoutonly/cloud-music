@@ -1,6 +1,6 @@
 <template>
   <div class="actions">
-    <router-link tag="div" class="tab-item" to="/recommend">
+    <router-link tag="div" class="tab-item" to="/fm">
       <div class="action">
         <div class="iconborder">
           <i class="iconfont icon-FM"></i>
@@ -8,7 +8,7 @@
         <span>私人FM</span>
       </div>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/radio">
+    <router-link tag="div" class="tab-item" to="/dailyRecom">
       <div class="action">
         <div class="iconborder">
           <i class="iconfont icon-meirituijian"></i>
@@ -16,7 +16,7 @@
         <span>每日推荐</span>
       </div>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/radio">
+    <router-link tag="div" class="tab-item" to="/songCollection">
       <div class="action">
         <div class="iconborder">
           <i class="iconfont icon-gedan"></i>
@@ -24,7 +24,7 @@
         <span>歌单</span>
       </div>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/radio">
+    <router-link tag="div" class="tab-item" to="/rank">
       <div class="action">
         <div class="iconborder">
           <i class="iconfont icon-paihang"></i>
