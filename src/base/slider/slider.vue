@@ -48,6 +48,9 @@ export default {
 			this._setSliderWidth(false)
 			this._initDots()
 			this._initSlider()
+			if (this.autoPlay) {
+				this._play()
+			}
 		}, 20)
 
 		window.addEventListener('resize', () => {
@@ -58,18 +61,28 @@ export default {
 			this.slider.refresh()
 		})
 	},
+	activated() {
+		if (this.autoPlay) {
+			this._play()
+		}
+	},
+	deactivated() {
+		clearTimeout(this.timer)
+	},
+	beforeDestroy() {
+		clearTimeout(this.timer)
+	},
 	methods: {
 		_setSliderWidth(isResize) {
-			this.children = this.$refs.sliderGroup.children
+			this.children = [...this.$refs.sliderGroup.children]
 			let width = 0
 			let sliderWidth = this.$refs.slider.clientWidth
-			for (let i = 0; i < this.children.length; i++) {
-				let child = this.children[i]
+			this.children.forEach(child => {
 				addClass(child, 'slider-item')
-
 				child.style.width = sliderWidth + 'px'
 				width += sliderWidth
-			}
+			})
+
 			if (this.loop && !isResize) {
 				width += 2 * sliderWidth
 			}
@@ -114,20 +127,9 @@ export default {
 				pageIndex += 1
 			}
 			this.timer = setTimeout(() => {
-				this.slider.next()
+				this.slider.goToPage(pageIndex, 0, 400)
 			}, this.interval)
 		},
-	},
-	activated() {
-		if (this.autoPlay) {
-			this._play()
-		}
-	},
-	deactivated() {
-		clearTimeout(this.timer)
-	},
-	destroyed() {
-		clearTimeout(this.timer)
 	},
 }
 </script>

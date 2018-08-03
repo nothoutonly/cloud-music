@@ -13,7 +13,8 @@
             <div v-for="item in banner"
                  :key="item.id"
                  @click.stop="selectBanner(item)">
-              <img :src="item.picUrl" />
+              <img :src="item.picUrl"
+                   @load="loadImg" />
             </div>
           </slider>
         </div>
@@ -102,6 +103,7 @@ export default {
 		this._getBanner()
 		this._getRecommendList()
 		this._getRecommendMusic()
+		this.loadBanner = false
 	},
 
 	methods: {
@@ -224,6 +226,7 @@ export default {
       margin: 0 auto;
       border-radius: 5px;
       overflow: hidden;
+      position: relative;
     }
 
     .recommend-list, .recommend-song {

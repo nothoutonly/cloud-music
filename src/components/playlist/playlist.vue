@@ -26,7 +26,7 @@
                             tag="ul">
             <li class="item"
                 ref="listItem"
-                @click="selectItem(item, index)"
+                @click.stop="selectItem(item, index)"
                 v-for="(item,index) in sequenceList"
                 :key="item.id">
               <i class="current iconfont"
@@ -35,7 +35,7 @@
                 <span class="singer">-{{item.singer}}</span>
               </span>
               <span class="delete"
-                    @click="deleteOne(item)">
+                    @click.prevent="deleteOne(item)">
                 <i class="iconfont icon-delete"></i>
               </span>
             </li>

@@ -14,8 +14,6 @@ const mutations = {
     state.fullScreen = flag
   },
   [types.SET_CURRENT_INDEX](state, index) {
-    console.log(index)
-
     state.currentIndex = index
   },
   [types.SET_PLAYLIST](state, list) {
