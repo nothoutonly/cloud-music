@@ -1,35 +1,33 @@
 <template>
-  <div class="loading">
-    <img width="40" height="40" src="./loading.gif" alt="">
-    <p class="desc">{{title}}</p>
-  </div>
+	<div class="loading">
+		<img src="./loading.gif"
+		     width="24"
+		     height="24">
+	</div>
 </template>
 
 <script>
-  export default {
-    name: 'loading',
-    props: {
-      title: {
-        type: String,
-        default: '正在载入...'
-      }
-    },
-    data() {
-      return {}
-    },
-    methods: {},
-    computed: {},
-    components: {}
-  }
+export default {
+	name: 'loading',
+	props: {
+		title: {
+			type: String,
+			default: '正在载入',
+		},
+	},
+}
 </script>
 
-<style scoped lang="stylus">
-  @import '~common/style/variable'
-  .loading
-    width: 100%
-    text-align: center
-    .desc
-      line-height: 20px
-      font-size: $font-size-small
-      color: $color-text
+<style lang="stylus" scoped>
+@import '~common/style/variable';
+
+.loading {
+	width: 100%;
+	height: 40px;
+	text-align: center;
+
+	img {
+		margin-top: 10px;
+	}
+}
 </style>

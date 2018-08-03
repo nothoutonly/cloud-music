@@ -1,18 +1,20 @@
-export function addClass (el, className) {
+export function addClass(el, className) {
   if (hasClass(el, className)) {
     return
   }
+  console.log(1)
+
   let newClass = el.className.split(' ')
   newClass.push(className)
   el.className = newClass.join(' ')
 }
 
-export function hasClass (el, className) {
+export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
 
-export function getData (el, name, val) {
+export function getData(el, name, val) {
   const prefix = 'data-'
   name = prefix + name
   if (val) {
@@ -35,7 +37,7 @@ let vendor = (() => {
     Moz: 'MozTransform',
     O: 'OTransform',
     ms: 'msTransform',
-    standard: 'transform'
+    standard: 'transform',
   }
 
   // 遍历前缀，如果游览器支持的话，就返回对应 key
@@ -49,7 +51,7 @@ let vendor = (() => {
   return false
 })()
 
-export function prefixStyle (style) {
+export function prefixStyle(style) {
   if (vendor === false) {
     return false
   }
