@@ -1,4 +1,5 @@
-export const HOST = 'http://120.79.162.149:3000'
+export const HOST =
+  'https://cors-anywhere.herokuapp.com/http://120.79.162.149:3000'
 export const ERR_OK = 200
 
 export const playMode = {

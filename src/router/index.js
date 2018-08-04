@@ -14,6 +14,7 @@ import Singer from 'components/singer/singer'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'hash',
   linkActiveClass: 'active',
   routes: [
     {
